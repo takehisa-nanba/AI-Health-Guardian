@@ -30,7 +30,8 @@ export function activate(context: vscode.ExtensionContext) {
             guardianLabel,
             '🧹 Quick Cleanup (WSL Shutdown)',
             '🚀 Clear Large Processes',
-            '✨ Cleanup Project Junk'
+            '✨ Cleanup Project Junk',
+            '🔥 Force Reset AI Client (Freeze Recovery)'
         ];
 
         const selection = await vscode.window.showQuickPick(options, {
@@ -47,6 +48,8 @@ export function activate(context: vscode.ExtensionContext) {
             await cleanupProcesses();
         } else if (selection === '✨ Cleanup Project Junk') {
             await cleanupProjectJunk();
+        } else if (selection === '🔥 Force Reset AI Client (Freeze Recovery)') {
+            await cleanupAgentProcesses();
         } else if (selection === '🔄 Refresh Now') {
             updateStatusBarItem();
         }
@@ -54,6 +57,21 @@ export function activate(context: vscode.ExtensionContext) {
 
     context.subscriptions.push(menuDisposable);
     updateStatusBarItem();
+}
+
+async function cleanupAgentProcesses() {
+    const confirm = await vscode.window.showWarningMessage(
+        'This will terminate AI-related sub-processes to recover from a freeze. Continue?',
+        'Yes', 'No'
+    );
+    if (confirm !== 'Yes') return;
+
+    const terminal = vscode.window.createTerminal('AG Emergency Reset');
+    // AIエージェントに関連する可能性のある子プロセス（言語サーバーやブラウザ等）を狙い撃ち
+    terminal.sendText('taskkill /F /IM language_server_windows_x64.exe /T');
+    terminal.sendText('taskkill /F /IM msedge.exe /T');
+    terminal.sendText('taskkill /F /IM chrome.exe /T');
+    vscode.window.showInformationMessage('AI sub-processes terminated. You may need to reload or restart the agent.');
 }
 
 async function cleanupWSL() {

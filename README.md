@@ -1,5 +1,10 @@
 # 🛡️ AI Health Guardian
 
+[![OS: Windows](https://img.shields.io/badge/OS-Windows-green.svg)](https://www.microsoft.com/windows)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+
+> **Note**: This tool is currently optimized specifically for **Windows** environments, focusing on WSL2 (vmmem) and Windows process management.
+
 <p align="center">
   <img src="resources/icon.png" width="128" alt="AI Health Guardian Icon">
 </p>

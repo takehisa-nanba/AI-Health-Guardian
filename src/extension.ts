@@ -5,6 +5,9 @@ let statusBarItem: vscode.StatusBarItem;
 let isGuardianMode = false;
 
 export function activate(context: vscode.ExtensionContext) {
+    if (process.platform !== 'win32') {
+        vscode.window.showInformationMessage('AI Health Guardian is currently optimized for Windows (WSL2 management). Key features may not be available on your OS.');
+    }
     console.log('Antigravity Optimizer is now active');
 
     // ステータスバー項目の作成

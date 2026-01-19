@@ -8,7 +8,23 @@ import * as si from "systeminformation";
 import { exec } from "child_process";
 import { promisify } from "util";
 
+import * as fs from "fs";
+import * as path from "path";
+
 const execAsync = promisify(exec);
+const LOG_FILE = path.join(process.cwd(), "resource_history.csv");
+
+/**
+ * ログに記録する関数
+ */
+function logResource(data: any, taskName: string = "idle") {
+    const timestamp = new Date().toISOString();
+    const row = `${timestamp},"${taskName}",${data.memory.availableGB},${data.cpu.currentLoadPercent},${data.wsl2.consumingMB || 0}\n`;
+    if (!fs.existsSync(LOG_FILE)) {
+        fs.writeFileSync(LOG_FILE, "timestamp,task,availableGB,cpuLoad,wsl2MB\n");
+    }
+    fs.appendFileSync(LOG_FILE, row);
+}
 
 const server = new Server(
     {
@@ -30,7 +46,17 @@ server.setRequestHandler(ListToolsRequestSchema, async () => {
         tools: [
             {
                 name: "get_resource_status",
-                description: "Get current CPU and Memory usage of the host machine.",
+                description: "Get current machine status. Pass task_name to correlate usage with actions.",
+                inputSchema: {
+                    type: "object",
+                    properties: {
+                        task_name: { type: "string", description: "What the AI is doing right now" }
+                    },
+                },
+            },
+            {
+                name: "analyze_usage_history",
+                description: "Analyze stored history to find which tasks are memory-heavy.",
                 inputSchema: {
                     type: "object",
                     properties: {},
@@ -67,25 +93,40 @@ server.setRequestHandler(CallToolRequestSchema, async (request) => {
 
             const vmmem = processes.list.find(p => p.name.toLowerCase().includes('vmmem'));
 
+            const status = {
+                memory: {
+                    totalGB: (mem.total / 1024 / 1024 / 1024).toFixed(2),
+                    availableGB: (mem.available / 1024 / 1024 / 1024).toFixed(2),
+                    freePercent: ((mem.available / mem.total) * 100).toFixed(1)
+                },
+                cpu: {
+                    currentLoadPercent: cpu.currentLoad.toFixed(1)
+                },
+                wsl2: vmmem ? {
+                    consumingMB: (vmmem.memRss / 1024 / 1024).toFixed(0)
+                } : { consumingMB: 0 },
+                recommended_mode: mem.available < 1024 * 1024 * 1024 * 1.5 ? "ECO_MODE" : "STANDARD"
+            };
+
+            logResource(status, (request.params.arguments?.task_name as string) || "check");
+
             return {
                 content: [
                     {
                         type: "text",
-                        text: JSON.stringify({
-                            memory: {
-                                totalGB: (mem.total / 1024 / 1024 / 1024).toFixed(2),
-                                availableGB: (mem.available / 1024 / 1024 / 1024).toFixed(2),
-                                freePercent: ((mem.available / mem.total) * 100).toFixed(1)
-                            },
-                            cpu: {
-                                currentLoadPercent: cpu.currentLoad.toFixed(1)
-                            },
-                            wsl2: vmmem ? {
-                                consumingMB: (vmmem.memRss / 1024 / 1024).toFixed(0)
-                            } : "Not running/Not found"
-                        }, null, 2),
+                        text: JSON.stringify(status, null, 2),
                     },
                 ],
+            };
+        }
+
+        case "analyze_usage_history": {
+            if (!fs.existsSync(LOG_FILE)) {
+                return { content: [{ type: "text", text: "No history yet." }] };
+            }
+            const history = fs.readFileSync(LOG_FILE, "utf8");
+            return {
+                content: [{ type: "text", text: "Past Resource Usage Correlation:\n" + history }],
             };
         }
 

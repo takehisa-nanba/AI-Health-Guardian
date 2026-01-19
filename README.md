@@ -11,11 +11,11 @@
 
 **"Empower AI agents on every machine, regardless of specs."**
 
-AI Health Guardian is a high-performance optimization suite designed for AI agents like Antigravity. It enables AI agents to autonomously monitor, manage, and protect their host machine's resources, making it possible to run advanced agentic workflows even on hardware with limited RAM (e.g., 8GB/16GB).
+AI Health Guardian is a high-performance optimization suite designed for AI agents. It enables AI agents to autonomously monitor, manage, and protect their host machine's resources, making it possible to run advanced agentic workflows even on hardware with limited RAM (e.g., 8GB/16GB).
 
 ---
 
-## � Our Vision: Making AI care for its environment
+## 🎨 Our Vision: Making AI care for its environment
 
 <p align="center">
   <img src="resources/vision.png" width="400" alt="AI tidying its room">
@@ -29,12 +29,14 @@ We believe that for AI agents to become true partners in development, they must 
 
 ### 1. 🛡️ Guardian Mode (VS Code Extension)
 - **Real-time Monitoring**: Visual memory health status in your VS Code status bar.
-- **Autonomous Protection**: Automatically shuts down memory-heavy WSL2 or background processes when free RAM drops below a critical threshold (e.g., 600MB).
-- **One-Click Cleanup**: Manual triggers to free up 2GB+ of RAM instantly.
+- **Autonomous Protection**: Automatically shuts down memory-heavy WSL2 or background processes when free RAM drops below a critical threshold.
+- **Freeze Recovery**: A dedicated "Emergency Reset" to kill hanging AI sub-processes without restarting VS Code.
+- **Project Tidying**: One-click removal of temporary development logs and junk files.
 
 ### 2. 🧠 MCP (Model Context Protocol) Integration
 - **Sensory Organs for AI**: Provides tools like `get_resource_status` so the AI can check its own "health" before performing heavy tasks.
-- **Self-Healing Capability**: Allows the AI agent to proactively run `cleanup_memory` when it senses the machine is struggling.
+- ** 自律的自制 (ECO Mode)**: When memory is low, the AI automatically switches to a lightweight response mode (concise text, no heavy diagrams).
+- **Correlation Learning**: The AI logs its resource usage alongside task names, allowing it to "learn" which actions are historically memory-intensive.
 
 ### 3. ⚙️ WSL2 Optimization
 - **The "Vmmem" Tamer**: Specialized logic to manage and limit WSL2 memory consumption, ensuring your Windows host stays responsive.
@@ -60,8 +62,10 @@ Add the following to your MCP configuration (e.g., `mcp_config.json`):
 }
 ```
 
-## 📜 Environment Optimization Script
-We also provide a standalone `extreme-clean.bat` for emergency recovery. It's designed to clear over 2GB of RAM in seconds by terminating non-essential development overhead.
+## 📜 Environment Optimization Scripts
+We also provide:
+- `extreme-clean.bat`: Clear 2GB+ of RAM in seconds.
+- `optimize-env.ps1`: Automated environment health check.
 
 ---
 

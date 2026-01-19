@@ -15,7 +15,9 @@
     "type": "git",
     "url": "https://github.com/takehisa-nanba/AI-Health-Guardian"
   },
-  "activationEvents": [],
+  "activationEvents": [
+    "onStartupFinished"
+  ],
   "main": "./out/extension.js",
   "contributes": {
     "commands": [

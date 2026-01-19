@@ -29,7 +29,8 @@ export function activate(context: vscode.ExtensionContext) {
             '🔄 Refresh Now',
             guardianLabel,
             '🧹 Quick Cleanup (WSL Shutdown)',
-            '🚀 Clear Large Processes'
+            '🚀 Clear Large Processes',
+            '✨ Cleanup Project Junk'
         ];
 
         const selection = await vscode.window.showQuickPick(options, {
@@ -44,6 +45,8 @@ export function activate(context: vscode.ExtensionContext) {
             await cleanupWSL();
         } else if (selection === '🚀 Clear Large Processes') {
             await cleanupProcesses();
+        } else if (selection === '✨ Cleanup Project Junk') {
+            await cleanupProjectJunk();
         } else if (selection === '🔄 Refresh Now') {
             updateStatusBarItem();
         }
@@ -78,6 +81,18 @@ async function cleanupProcesses() {
         terminal.sendText(`taskkill /F /PID ${selection.pid} /T`);
         vscode.window.showInformationMessage(`Attempting to kill process: ${selection.label}`);
     }
+}
+
+async function cleanupProjectJunk() {
+    const junkFiles = [
+        "build_error.txt", "mcp_build_error.txt", "procs.txt",
+        "top_mem_utf8.txt", "top_mem.txt", "wsl_status.txt",
+        "mem_raw.json", "process_list.csv", "test-mem.js"
+    ];
+
+    const terminal = vscode.window.createTerminal('AG Optimizer');
+    terminal.sendText(`del ${junkFiles.join(", ")}`);
+    vscode.window.showInformationMessage('Tidying up development logs and temporary files.');
 }
 
 async function updateStatusBarItem() {

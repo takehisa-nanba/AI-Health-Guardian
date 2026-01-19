@@ -13,4 +13,5 @@ mem_raw.json
 mcp_build_error.txt
 build_error.txt
 test-mem.js
+resource_history.csv
 .DS_Store

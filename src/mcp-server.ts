@@ -63,6 +63,14 @@ server.setRequestHandler(ListToolsRequestSchema, async () => {
                 },
             },
             {
+                name: "cleanup_dev_junk",
+                description: "Remove temporary logs and dev files (e.g., build_error.txt) to keep the project clean.",
+                inputSchema: {
+                    type: "object",
+                    properties: {},
+                },
+            },
+            {
                 name: "cleanup_memory",
                 description: "Forcefully terminate heavy background processes like WSL2 or Browsers to free up memory.",
                 inputSchema: {
@@ -127,6 +135,25 @@ server.setRequestHandler(CallToolRequestSchema, async (request) => {
             const history = fs.readFileSync(LOG_FILE, "utf8");
             return {
                 content: [{ type: "text", text: "Past Resource Usage Correlation:\n" + history }],
+            };
+        }
+
+        case "cleanup_dev_junk": {
+            const junkFiles = [
+                "build_error.txt", "mcp_build_error.txt", "procs.txt",
+                "top_mem_utf8.txt", "top_mem.txt", "wsl_status.txt",
+                "mem_raw.json", "process_list.csv", "test-mem.js"
+            ];
+            const killed = [];
+            for (const f of junkFiles) {
+                const target = path.join(process.cwd(), f);
+                if (fs.existsSync(target)) {
+                    fs.unlinkSync(target);
+                    killed.push(f);
+                }
+            }
+            return {
+                content: [{ type: "text", text: `Project tidied up! Removed: ${killed.join(", ") || "None found."}` }],
             };
         }
 

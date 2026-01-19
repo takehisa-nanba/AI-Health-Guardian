@@ -1,14 +1,24 @@
-# 🛡️ Antigravity Environment Optimizer & Guardian
+# 🛡️ AI Health Guardian
+
+<p align="center">
+  <img src="resources/icon.png" width="128" alt="AI Health Guardian Icon">
+</p>
 
 **"Empower AI agents on every machine, regardless of specs."**
 
-This project is a high-performance optimization suite designed for AI agents like Antigravity. It enables AI agents to autonomously monitor, manage, and protect their host machine's resources, making it possible to run advanced agentic workflows even on hardware with limited RAM (e.g., 8GB/16GB).
+AI Health Guardian is a high-performance optimization suite designed for AI agents like Antigravity. It enables AI agents to autonomously monitor, manage, and protect their host machine's resources, making it possible to run advanced agentic workflows even on hardware with limited RAM (e.g., 8GB/16GB).
 
-## 🌟 Why this matters
+---
 
-AI agents are powerful but resource-hungry. They open multiple browser instances, run complex builds, and index large codebases. On standard machines, this often leads to system freezes.
+## � Our Vision: Making AI care for its environment
 
-**This tool changes that.** It gives the AI "self-awareness" of its physical constraints and the tools to fix resource issues before they happen.
+<p align="center">
+  <img src="resources/vision.png" width="400" alt="AI tidying its room">
+</p>
+
+We believe that for AI agents to become true partners in development, they must be aware of their physical constraints. Just as a good roommate tidies up their shared space, **AI Health Guardian** allows your AI to "clean its room"—optimizing memory and closing unnecessary background processes—so you can focus on creativity while the AI handles the housekeeping.
+
+---
 
 ## 🚀 Key Features
 
@@ -27,7 +37,7 @@ AI agents are powerful but resource-hungry. They open multiple browser instances
 ## 🛠️ Installation
 
 ### 1. VS Code Extension
-- Downlaod `antigravity-optimizer-x.x.x.vsix`
+- Download `antigravity-optimizer-x.x.x.vsix` from the [Releases](https://github.com/takehisa-nanba/AI-Health-Guardian/releases) page.
 - In VS Code, go to Extensions -> `...` -> `Install from VSIX`
 - Reload VS Code.
 

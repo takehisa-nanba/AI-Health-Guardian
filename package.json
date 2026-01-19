@@ -1,17 +1,21 @@
 {
   "name": "antigravity-optimizer",
-  "displayName": "Antigravity Optimizer",
-  "description": "Optimizes local environment for Antigravity AI agent",
-  "version": "0.0.1",
+  "displayName": "AI Health Guardian",
+  "description": "Empower AI agents with autonomous resource monitoring and optimization.",
+  "version": "0.1.0",
+  "publisher": "takehisa-nanba",
+  "icon": "resources/icon.png",
   "engines": {
-    "vscode": "^1.85.0"
+    "vscode": "^1.96.0"
   },
   "categories": [
     "Other"
   ],
-  "activationEvents": [
-    "onStartupFinished"
-  ],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/takehisa-nanba/AI-Health-Guardian"
+  },
+  "activationEvents": [],
   "main": "./out/extension.js",
   "contributes": {
     "commands": [

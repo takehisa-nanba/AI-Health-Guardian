@@ -1,0 +1,16 @@
+node_modules/
+out/
+*.vsix
+.vscode-test/
+.history/
+*.log
+process_list.csv
+wsl_status.txt
+top_mem.txt
+top_mem_utf8.txt
+procs.txt
+mem_raw.json
+mcp_build_error.txt
+build_error.txt
+test-mem.js
+.DS_Store
